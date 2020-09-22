@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <iomanip>
 
 
 using std::cout;
@@ -11,6 +12,11 @@ using std::cin;
 using std::string;
 using std::vector;
 using std::endl;
+using std::left;
+using std::setw;
+using std::setfill;
+using std::fixed;
+using std::setprecision;
 
 struct duomuo {
     string Vardas;
@@ -25,6 +31,10 @@ int main()
 {
     duomuo Eil; duomuo Eil_masyvas[20];
     vector <duomuo> Eil_vect;
+    const char separator = ' ';
+    const int VardSimb = 15;
+    const int PavSimb = 15;
+    const int GalutSimb = 16;
     cout << "Iveskite mokiniu skaiciu (iki 20)\n";
     int MokSkai;
     cin >> MokSkai;
@@ -45,8 +55,14 @@ int main()
         Eil_masyvas[i].galutinis = Eil_masyvas[i].galutinis * 0.4 + Eil_masyvas[i].egz * 0.6;
     }
 
+    cout << left << setw(VardSimb) << setfill(separator) << "Vardas";
+    cout << left << setw(PavSimb) << setfill(separator) << "Pavarde";
+    cout << left << setw(GalutSimb) << setfill(separator) << "Galutinis (Vid.)" << endl;
+    cout << string( VardSimb + PavSimb + GalutSimb, '-') << endl;
     for (int i = 0; i < MokSkai; i++) {
-        cout << "\n Ivesta:" << Eil_masyvas[i].Vardas << " " << Eil_masyvas[i].Pavarde << " " << Eil_masyvas[i].galutinis << endl; // suapvalinti rezultata
+        cout << left << setw(VardSimb) << setfill(separator) << Eil_masyvas[i].Vardas;
+        cout << left << setw(PavSimb) << setfill(separator) << Eil_masyvas[i].Pavarde;
+        cout << left << setw(GalutSimb) << setfill(separator) << fixed << setprecision(2) << Eil_masyvas[i].galutinis << endl;
     }
     return(0);
 }
