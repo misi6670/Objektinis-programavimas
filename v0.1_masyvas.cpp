@@ -22,7 +22,7 @@ struct duomuo {
     string Vardas;
     string Pavarde;
     int nd[15];
-    int n;
+    int n=0;
     int egz;
     float galutinis=0;
 };
@@ -41,16 +41,16 @@ int main()
     for (int i = 0; i < MokSkai; i++) {
         cout << "\n Iveskite studento varda ir pavarde \n";
         cin >> Eil_masyvas[i].Vardas >> Eil_masyvas[i].Pavarde;
+        cout << "\n Iveskite studento pazymius (iki 15), suvedus visus pazymius irasykite 0\n";
+        int nulis = 1;
+            while (nulis != 0) {
+                cin >> Eil_masyvas[i].nd[Eil_masyvas[i].n];
+                Eil_masyvas[i].galutinis = Eil_masyvas[i].galutinis + (float)Eil_masyvas[i].nd[Eil_masyvas[i].n];
+                if (Eil_masyvas[i].nd[Eil_masyvas[i].n] == 0) nulis = 0;
+                else Eil_masyvas[i].n++;
+            }
         cout << "\n Iveskite studento egzamino rezultata \n";
         cin >> Eil_masyvas[i].egz;
-        cout << "\n Iveskite kiek pazymiu gavo studentas (iki 15)?\n";
-        cin >> Eil_masyvas[i].n;
-        cout << "\n Iveskite " << Eil_masyvas[i].n << " pazymi(-ius):\n";
-        for (int ii = 0; ii < Eil_masyvas[i].n; ii++) {
-            cout << "liko ivesti " << Eil_masyvas[i].n - ii << " pazymi(-ius)\n";
-            cin >> Eil_masyvas[i].nd[ii];
-            Eil_masyvas[i].galutinis = Eil_masyvas[i].galutinis + (float) Eil_masyvas[i].nd[ii];
-        }
         Eil_masyvas[i].galutinis = Eil_masyvas[i].galutinis / (float) Eil_masyvas[i].n;
         Eil_masyvas[i].galutinis = Eil_masyvas[i].galutinis * 0.4 + Eil_masyvas[i].egz * 0.6;
     }
