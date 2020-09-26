@@ -3,14 +3,13 @@
 
 #include <iostream>
 #include <string>
-#include <vector>
 #include <iomanip>
 #include <algorithm>
+#include <stdlib.h> 
 
 using std::cout;
 using std::cin;
 using std::string;
-using std::vector;
 using std::endl;
 using std::left;
 using std::setw;
@@ -31,34 +30,50 @@ struct studentas {
 
 int main()
 {
-    vector <studentas> Eil_vect;
     const char separator = ' ';
     const int VardSimb = 15;
     const int PavSimb = 15;
     const int GalutSimb = 16;
     int StudSkai=0;
     int VidArMed = 0;
-    cout << "Galutinio balo skaiciavimui naudoti vidurki ar mediana? Noredami naudoti mediana, iveskite '1', o noredami naudoti vidurki, iveskite '0' ar koki kita SKAICIU \n";
+    int AutoGen = 0;
+    cout << "Galutinio balo skaiciavimui naudoti vidurki ar mediana? \n Noredami naudoti mediana, iveskite '1'; \n Noredami naudoti vidurki, iveskite '0' ar koki kita SKAICIU; \n";
     cin >> VidArMed;
+    cout << "\n Jei norite, kad studento namu darbu ir egzamino balai butu generuojami automatiskai, iveskite '1'; \n Kitu atveju iveskite '0' arba bet koki kita SKAICIU; \n";
+    cin >> AutoGen;
     cout << "\n Iveskite studentu skaiciu\n";
     cin >> StudSkai;
     studentas* grupe = new studentas[StudSkai];
     for (int i = 0; i < StudSkai; i++) {
         cout << "\n Iveskite " << i+1 << " studento varda ir pavarde \n";
         cin >> grupe[i].Vardas >> grupe[i].Pavarde;
-        cout << "\n Iveskite " << i + 1 << " studento pazymius, suvedus visus pazymius irasykite 0\n";
-        int nulis = 1;
-        while (nulis != 0) {
-            cin >> grupe[i].nd[grupe[i].n];
-            grupe[i].vid = grupe[i].vid + (float)grupe[i].nd[grupe[i].n];
-            if (grupe[i].nd[grupe[i].n] == 0) nulis = 0;
-            else {
-                grupe[i].n++;
-                cout << "Ivedete " << grupe[i].n << " pazymi(-ius)" << endl;
+        if (AutoGen == 1) {
+            cout << "\n" << i + 1 << " studento atsitiktinai sugeneruoti pazymiai: \n";
+            grupe[i].n = rand() % 20 + 1;
+            for (int j = 0; j < grupe[i].n; j++) {
+                grupe[i].nd[j] = rand() % 10 + 1;
+                cout << grupe[i].nd[j] << " " ;
+                grupe[i].vid = grupe[i].vid + (float)grupe[i].nd[j];
             }
+            cout << endl;
+            grupe[i].egz = rand() % 10 + 1;
+            cout << "\n" << i + 1 << " studento atsitiktinai sugeneruotas egzamino balas: " << grupe[i].egz << endl;
         }
-        cout << "\n Iveskite " << i + 1 << " studento egzamino rezultata \n";
-        cin >> grupe[i].egz;
+        else {
+            cout << "\n Iveskite " << i + 1 << " studento pazymius, suvedus visus pazymius irasykite 0\n";
+            int nulis = 1;
+            while (nulis != 0) {
+                cin >> grupe[i].nd[grupe[i].n];
+                grupe[i].vid = grupe[i].vid + (float)grupe[i].nd[grupe[i].n];
+                if (grupe[i].nd[grupe[i].n] == 0) nulis = 0;
+                else {
+                    grupe[i].n++;
+                    cout << "Ivedete " << grupe[i].n << " pazymi(-ius)" << endl;
+                }
+            }
+            cout << "\n Iveskite " << i + 1 << " studento egzamino rezultata \n";
+            cin >> grupe[i].egz;
+        }
         if (VidArMed == 1) {
             sort(grupe[i].nd, grupe[i].nd + grupe[i].n);
             if (grupe[i].n % 2 != 0) grupe[i].galutinis = grupe[i].nd[grupe[i].n / 2];
@@ -77,5 +92,6 @@ int main()
         cout << left << setw(PavSimb) << setfill(separator) << grupe[i].Pavarde;
         cout << left << setw(GalutSimb) << setfill(separator) << fixed << setprecision(2) << grupe[i].galutinis << endl;
     }
+    delete[] grupe;
     return(0);
 }
