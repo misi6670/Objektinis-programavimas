@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 #include <iomanip>
-
+#include <algorithm>
 
 using std::cout;
 using std::cin;
@@ -17,14 +17,16 @@ using std::setw;
 using std::setfill;
 using std::fixed;
 using std::setprecision;
+using std::sort;
 
 struct studentas {
     string Vardas;
     string Pavarde;
     int nd[15];
-    int n=0;
-    int egz;
-    float galutinis=0;
+    int n = 0;
+    int egz = 0;
+    float galutinis = 0;
+    float vid = 0;
 };
 
 int main()
@@ -35,7 +37,10 @@ int main()
     const int PavSimb = 15;
     const int GalutSimb = 16;
     int StudSkai=0;
-    cout << "Iveskite studentu skaiciu\n";
+    int VidArMed = 0;
+    cout << "Galutinio balo skaiciavimui naudoti vidurki ar mediana? Noredami naudoti mediana, iveskite '1', o noredami naudoti vidurki, iveskite '0' ar koki kita SKAICIU \n";
+    cin >> VidArMed;
+    cout << "\n Iveskite studentu skaiciu\n";
     cin >> StudSkai;
     studentas* grupe = new studentas[StudSkai];
     for (int i = 0; i < StudSkai; i++) {
@@ -45,7 +50,7 @@ int main()
         int nulis = 1;
         while (nulis != 0) {
             cin >> grupe[i].nd[grupe[i].n];
-            grupe[i].galutinis = grupe[i].galutinis + (float)grupe[i].nd[grupe[i].n];
+            grupe[i].vid = grupe[i].vid + (float)grupe[i].nd[grupe[i].n];
             if (grupe[i].nd[grupe[i].n] == 0) nulis = 0;
             else {
                 grupe[i].n++;
@@ -54,12 +59,18 @@ int main()
         }
         cout << "\n Iveskite " << i + 1 << " studento egzamino rezultata \n";
         cin >> grupe[i].egz;
-        grupe[i].galutinis = grupe[i].galutinis / (float) grupe[i].n;
+        if (VidArMed == 1) {
+            sort(grupe[i].nd, grupe[i].nd + grupe[i].n);
+            if (grupe[i].n % 2 != 0) grupe[i].galutinis = grupe[i].nd[grupe[i].n / 2];
+            else grupe[i].galutinis = (grupe[i].nd[(grupe[i].n - 1) / 2] + grupe[i].nd[grupe[i].n / 2]) / 2.0;
+        }
+        else grupe[i].galutinis = grupe[i].vid / (float) grupe[i].n;
         grupe[i].galutinis = grupe[i].galutinis * 0.4 + grupe[i].egz * 0.6;
     }
     cout << left << setw(VardSimb) << setfill(separator) << "\n Vardas";
     cout << left << setw(PavSimb) << setfill(separator) << "Pavarde";
-    cout << left << setw(GalutSimb) << setfill(separator) << "Galutinis (Vid.)" << endl;
+    if (VidArMed == 1) cout << left << setw(GalutSimb) << setfill(separator) << "Galutinis (Med.)" << endl;
+    else cout << left << setw(GalutSimb) << setfill(separator) << "Galutinis (Vid.)" << endl;
     cout << string( VardSimb + PavSimb + GalutSimb, '-') << endl;
     for (int i = 0; i < StudSkai; i++) {
         cout << left << setw(VardSimb) << setfill(separator) << grupe[i].Vardas;
@@ -68,4 +79,3 @@ int main()
     }
     return(0);
 }
-
