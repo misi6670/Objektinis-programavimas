@@ -102,7 +102,7 @@ int main()
         stud.nd.clear();
     }
     cout << endl;
-    cout << left << setw(VardSimb) << setfill(separator) << "\n Vardas";
+    cout << left << setw(VardSimb) << setfill(separator) << "Vardas";
     cout << left << setw(PavSimb) << setfill(separator) << "Pavarde";
     if (VidArMed == 1) cout << left << setw(GalutSimb) << setfill(separator) << "Galutinis (Med.)" << endl;
     else cout << left << setw(GalutSimb) << setfill(separator) << "Galutinis (Vid.)" << endl;
