@@ -85,12 +85,12 @@ int main()
                 med = grupe[i].nd[(grupe[i].n - 1) / 2] + grupe[i].nd[grupe[i].n / 2];
                 grupe[i].galutinis = (float)med / 2.0;
             }
-                
         }
         else grupe[i].galutinis = grupe[i].vid / (float)grupe[i].n;
         grupe[i].galutinis = grupe[i].galutinis * 0.4 + (float)grupe[i].egz * 0.6;
     }
-    cout << left << setw(VardSimb) << setfill(separator) << "\n Vardas";
+    cout << endl;
+    cout << left << setw(VardSimb) << setfill(separator) << "Vardas";
     cout << left << setw(PavSimb) << setfill(separator) << "Pavarde";
     if (VidArMed == 1) cout << left << setw(GalutSimb) << setfill(separator) << "Galutinis (Med.)" << endl;
     else cout << left << setw(GalutSimb) << setfill(separator) << "Galutinis (Vid.)" << endl;
