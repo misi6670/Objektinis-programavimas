@@ -64,7 +64,6 @@ int main()
                 cout << random << " ";
                 stud.vid = stud.vid + (float)random;
                 stud.nd.push_back(random);
-                
             }
             cout << endl;
             stud.egz = rand() % 10 + 1;
