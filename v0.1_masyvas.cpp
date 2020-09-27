@@ -19,9 +19,9 @@ using std::setprecision;
 using std::sort;
 
 struct studentas {
-    string Vardas;
-    string Pavarde;
-    int nd[15];
+    string Vardas = "";
+    string Pavarde = "";
+    int nd[20];
     int n = 0;
     int egz = 0;
     float galutinis = 0;
@@ -34,12 +34,15 @@ int main()
     const int VardSimb = 15;
     const int PavSimb = 15;
     const int GalutSimb = 16;
-    int StudSkai=0;
+    int StudSkai = 0;
     int VidArMed = 0;
     int AutoGen = 0;
-    cout << "Galutinio balo skaiciavimui naudoti vidurki ar mediana? \n Noredami naudoti mediana, iveskite '1'; \n Noredami naudoti vidurki, iveskite '0' ar koki kita SKAICIU; \n";
+    cout << "Galutinio balo skaiciavimui naudoti vidurki ar mediana? \n";
+    cout << "Noredami naudoti mediana, iveskite '1'; \n";
+    cout << "Noredami naudoti vidurki, iveskite '0' ar koki kita SKAICIU; \n";
     cin >> VidArMed;
-    cout << "\n Jei norite, kad studento namu darbu ir egzamino balai butu generuojami automatiskai, iveskite '1'; \n Kitu atveju iveskite '0' arba bet koki kita SKAICIU; \n";
+    cout << "\n Jei norite, kad studento namu darbu ir egzamino balai butu generuojami automatiskai, iveskite '1'; \n";
+    cout << "Kitu atveju iveskite '0' arba bet koki kita SKAICIU; \n";
     cin >> AutoGen;
     cout << "\n Iveskite studentu skaiciu\n";
     cin >> StudSkai;
@@ -76,11 +79,16 @@ int main()
         }
         if (VidArMed == 1) {
             sort(grupe[i].nd, grupe[i].nd + grupe[i].n);
-            if (grupe[i].n % 2 != 0) grupe[i].galutinis = grupe[i].nd[grupe[i].n / 2];
-            else grupe[i].galutinis = (grupe[i].nd[(grupe[i].n - 1) / 2] + grupe[i].nd[grupe[i].n / 2]) / 2.0;
+            if (grupe[i].n % 2 != 0) grupe[i].galutinis = (float)grupe[i].nd[grupe[i].n / 2];
+            else {
+                int med;
+                med = grupe[i].nd[(grupe[i].n - 1) / 2] + grupe[i].nd[grupe[i].n / 2];
+                grupe[i].galutinis = (float)med / 2.0;
+            }
+                
         }
-        else grupe[i].galutinis = grupe[i].vid / (float) grupe[i].n;
-        grupe[i].galutinis = grupe[i].galutinis * 0.4 + grupe[i].egz * 0.6;
+        else grupe[i].galutinis = grupe[i].vid / (float)grupe[i].n;
+        grupe[i].galutinis = grupe[i].galutinis * 0.4 + (float)grupe[i].egz * 0.6;
     }
     cout << left << setw(VardSimb) << setfill(separator) << "\n Vardas";
     cout << left << setw(PavSimb) << setfill(separator) << "Pavarde";
