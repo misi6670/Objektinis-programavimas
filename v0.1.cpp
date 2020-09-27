@@ -40,7 +40,10 @@ int main()
     int StudSkai = 0;
     int VidArMed = 0;
     int AutoGen = 0;
-
+    cout << "Galutinio balo skaiciavimui naudoti vidurki ar mediana? \n";
+    cout << "Noredami naudoti mediana, iveskite '1'; \n";
+    cout << "Noredami naudoti vidurki, iveskite '0' ar koki kita SKAICIU; \n";
+    cin >> VidArMed;
     cout << "\n Iveskite studentu skaiciu\n";
     cin >> StudSkai;
     grupe.reserve(StudSkai);
@@ -64,20 +67,30 @@ int main()
         }
         cout << "\n Iveskite " << i + 1 << " studento egzamino rezultata \n";
         cin >> stud.egz;
-       stud.galutinis = stud.vid / (float)stud.n;
+        if (VidArMed == 1) {
+            sort(stud.nd.begin(), stud.nd.end());
+            if (stud.n % 2 != 0) stud.galutinis = (float)stud.nd.at(stud.n / 2);
+            else {
+                int med;
+                med = stud.nd.at((stud.n - 1) / 2) + stud.nd.at(stud.n / 2);
+                stud.galutinis = (float)med / 2.0;
+            }
+        }
+        else stud.galutinis = stud.vid / (float)stud.n;
         stud.galutinis = stud.galutinis * 0.4 + (float)stud.egz * 0.6;
         grupe.push_back(stud);
         stud.nd.clear();
     }
     cout << endl;
+    cout << left << setw(VardSimb) << setfill(separator) << "\n Vardas";
+    cout << left << setw(PavSimb) << setfill(separator) << "Pavarde";
+    if (VidArMed == 1) cout << left << setw(GalutSimb) << setfill(separator) << "Galutinis (Med.)" << endl;
+    else cout << left << setw(GalutSimb) << setfill(separator) << "Galutinis (Vid.)" << endl;
+    cout << string(VardSimb + PavSimb + GalutSimb, '-') << endl;
     for (auto& tt : grupe) {
-        cout << tt.Vardas << " " << tt.Pavarde << endl;
-        for (auto& yy : tt.nd){
-            cout << yy << " ";
-        }
-        cout << endl;
-        cout << "egzaminas: " << tt.egz << endl;
-        cout << "galutinis: " << tt.galutinis << endl;
+        cout << left << setw(VardSimb) << setfill(separator) << tt.Vardas;
+        cout << left << setw(PavSimb) << setfill(separator) << tt.Pavarde;
+        cout << left << setw(GalutSimb) << setfill(separator) << fixed << setprecision(2) << tt.galutinis << endl;
     }
     /*
     cout << "Galutinio balo skaiciavimui naudoti vidurki ar mediana? \n";
