@@ -89,7 +89,16 @@ int main()
             f >> stud.egz;
             string temp;
             getline(f, temp, '\n');
-            stud.galutinis = stud.vid / (float)stud.n;
+            if (VidArMed == 1) {
+                sort(stud.nd.begin(), stud.nd.end());
+                if (stud.n % 2 != 0) stud.galutinis = (float)stud.nd.at(stud.n / 2);
+                else {
+                    int med;
+                    med = stud.nd.at((stud.n - 1) / 2) + stud.nd.at(stud.n / 2);
+                    stud.galutinis = (float)med / 2.0;
+                }
+            }
+            else stud.galutinis = stud.vid / (float)stud.n;
             stud.galutinis = stud.galutinis * 0.4 + (float)stud.egz * 0.6;
             grupe.push_back(stud);
             stud.nd.clear();
