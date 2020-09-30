@@ -53,54 +53,7 @@ int main()
     char delimeter(' ');
     int NamuDarbuSk;
     string txtname;
-    cout << "Iveskite norimo nuskaityti tekstinio failo pavadinima ('.txt' vesti nereikia)" << endl;
-    cin >> txtname;
-    f.open(txtname + ".txt", ios::in);
-    getline(f, title, '\n');
-    NamuDarbuSk = count(title.begin(), title.end(), 'N');
-    while (!f.eof()) {
-        if(f.fail())
-        StudSkai++;
-        grupe.reserve(StudSkai);
-        studentas stud;
-        stud.n = NamuDarbuSk;
-        stud.nd.reserve(stud.n);
-        getline(f, stud.Vardas, delimeter);
-        char a = ' ';
-        while (a == ' ') f.get(a);
-        getline(f, stud.Pavarde, delimeter);
-        stud.Pavarde = a + stud.Pavarde;
-        for (int i = 0; i < stud.n; i++) {
-            int paz;
-            f >> paz;
-            stud.vid = stud.vid + (float)paz;
-            stud.nd.push_back(paz);
-        }
-        f >> stud.egz;
-        string temp;
-        getline(f, temp, '\n');
-        stud.galutinis = stud.vid / (float)stud.n;
-        stud.galutinis = stud.galutinis * 0.4 + (float)stud.egz * 0.6;
-        grupe.push_back(stud);
-        stud.nd.clear();
-    }
-    
-    sort(grupe.begin(), grupe.end(), compareTwoStudents);
-
-    cout << endl;
-    cout << left << setw(VardSimb) << setfill(separator) << "Vardas";
-    cout << left << setw(PavSimb) << setfill(separator) << "Pavarde";
-    cout << left << setw(GalutSimb) << setfill(separator) << "Galutinis (Vid.)" << endl;
-    cout << string(VardSimb + PavSimb + GalutSimb, '-') << endl;
-    for (auto& tt : grupe) {
-        cout << left << setw(VardSimb) << setfill(separator) << tt.Vardas;
-        cout << left << setw(PavSimb) << setfill(separator) << tt.Pavarde;
-        cout << left << setw(GalutSimb) << setfill(separator) << fixed << setprecision(2) << tt.galutinis << endl;
-    }
-    grupe.clear();
-    f.close();
-
-    /*
+        
     cout << "Noredami duomenis nuskaityti is failo iveskite '1'; \n";
     cout << "Kitu atveju iveskite '0' ar bet koki kita SKAICIU \n";
     cin >> Ivedimas;
@@ -110,58 +63,38 @@ int main()
     cin >> VidArMed;
 
     if (Ivedimas == 1) {
-        
-        //
-        stringstream ss("Age: 24\n IQ: 120\n Miles Jogged: 19");
-        while (ss) {
-            string name;
-            int value;
-
-            getline(ss, name, ':');
-
-            ss >> value;
-            ss.ignore(numeric_limits<streamsize>::max(), '\n');
-
-            cout << name << ": " << value << endl;
-        }
-        //
-
-        //
-        ifstream file("kursiokai.txt", ios::in);
-        string part1, part2;
-        int num1, num2, num3, num4, num5, egz;
-
-        while (file >> part1 >> part2 >> num1 >> num2 >> num3 >> num4 >> num5 >> egz)
-        {
-            cout << part1 << " " << part2 << " " << num1 << " " << num2 << " " << num3 << " " << num4 << " " << num5 << " " << egz << endl;
-        }
-
-        file.close();
-        //
-
-        //
-        f.open("kursiokai.txt", ios::in);
-        for (int j = 0; j < 5; j++)
-        {f.width(6); f >> y[j]; }
-        f.close();
-        for (int j = 0; j < 5; j++)
-        {
-            cout.width(6); cout << y[j] << ' ';
-        }
-        //
-
-        //
-        ifstream myfile("example.txt");
-        if (myfile.is_open())
-        {
-            while (getline(myfile, line))
-            {
-                cout << line << '\n';
+        cout << "Iveskite norimo nuskaityti tekstinio failo pavadinima ('.txt' vesti nereikia)" << endl;
+        cin >> txtname;
+        f.open(txtname + ".txt", ios::in);
+        getline(f, title, '\n');
+        NamuDarbuSk = count(title.begin(), title.end(), 'N');
+        while (!f.eof()) {
+            if (f.fail()) {}
+            StudSkai++;
+            grupe.reserve(StudSkai);
+            studentas stud;
+            stud.n = NamuDarbuSk;
+            stud.nd.reserve(stud.n);
+            getline(f, stud.Vardas, delimeter);
+            char a = ' ';
+            while (a == ' ') f.get(a);
+            getline(f, stud.Pavarde, delimeter);
+            stud.Pavarde = a + stud.Pavarde;
+            for (int i = 0; i < stud.n; i++) {
+                int paz;
+                f >> paz;
+                stud.vid = stud.vid + (float)paz;
+                stud.nd.push_back(paz);
             }
-            myfile.close();
+            f >> stud.egz;
+            string temp;
+            getline(f, temp, '\n');
+            stud.galutinis = stud.vid / (float)stud.n;
+            stud.galutinis = stud.galutinis * 0.4 + (float)stud.egz * 0.6;
+            grupe.push_back(stud);
+            stud.nd.clear();
         }
-        else cout << "Unable to open file";
-        //
+        f.close();
     }
     else {
         cout << "\n Jei norite, kad studento namu darbu ir egzamino balai butu generuojami automatiskai, iveskite '1'; \n";
@@ -222,6 +155,7 @@ int main()
             stud.nd.clear();
         }
     }
+    sort(grupe.begin(), grupe.end(), compareTwoStudents);
     cout << endl;
     cout << left << setw(VardSimb) << setfill(separator) << "Vardas";
     cout << left << setw(PavSimb) << setfill(separator) << "Pavarde";
@@ -234,7 +168,6 @@ int main()
         cout << left << setw(GalutSimb) << setfill(separator) << fixed << setprecision(2) << tt.galutinis << endl;
     }
     grupe.clear();
-    */
     return(0);
 }
 
