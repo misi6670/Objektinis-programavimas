@@ -20,7 +20,7 @@ using std::setfill;
 using std::fixed;
 using std::setprecision;
 using std::sort;
-using std::fstream;
+using std::ifstream;
 using std::getline;
 using std::ios;
 using std::count;
@@ -35,6 +35,8 @@ struct studentas {
     float vid = 0;
 };
 
+bool compareTwoStudents(studentas a, studentas b);
+
 int main()
 {
     vector <studentas> grupe;
@@ -46,30 +48,28 @@ int main()
     int VidArMed = 0;
     int AutoGen = 0;
     int Ivedimas = 0;
-    fstream f;
+    ifstream f;
     string title;
     char delimeter(' ');
     int NamuDarbuSk;
-
-    f.open("kursiokai.txt", ios::in);
+    string txtname;
+    cout << "Iveskite norimo nuskaityti tekstinio failo pavadinima ('.txt' vesti nereikia)" << endl;
+    cin >> txtname;
+    f.open(txtname + ".txt", ios::in);
     getline(f, title, '\n');
     NamuDarbuSk = count(title.begin(), title.end(), 'N');
     while (!f.eof()) {
+        if(f.fail())
         StudSkai++;
         grupe.reserve(StudSkai);
         studentas stud;
         stud.n = NamuDarbuSk;
         stud.nd.reserve(stud.n);
         getline(f, stud.Vardas, delimeter);
-        string a = " ";
-        char b = ' ';
-        while (a == " ") {
-            a = "";
-            f.get(b);
-            a = b;
-        }
+        char a = ' ';
+        while (a == ' ') f.get(a);
         getline(f, stud.Pavarde, delimeter);
-        stud.Pavarde = b + stud.Pavarde;
+        stud.Pavarde = a + stud.Pavarde;
         for (int i = 0; i < stud.n; i++) {
             int paz;
             f >> paz;
@@ -84,6 +84,9 @@ int main()
         grupe.push_back(stud);
         stud.nd.clear();
     }
+    
+    sort(grupe.begin(), grupe.end(), compareTwoStudents);
+
     cout << endl;
     cout << left << setw(VardSimb) << setfill(separator) << "Vardas";
     cout << left << setw(PavSimb) << setfill(separator) << "Pavarde";
@@ -233,4 +236,15 @@ int main()
     grupe.clear();
     */
     return(0);
+}
+
+bool compareTwoStudents(studentas a, studentas b)
+{
+    if (a.Vardas != b.Vardas)
+        return a.Vardas.compare(b.Vardas) < 0;
+
+    if (a.Pavarde != b.Pavarde)
+        return a.Pavarde.compare(b.Pavarde) < 0;
+
+    return (a.galutinis > b.galutinis);
 }
