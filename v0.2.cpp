@@ -57,13 +57,13 @@ int main()
     cout << "Noredami duomenis nuskaityti is failo iveskite '1'; \n";
     cout << "Kitu atveju iveskite '0' ar bet koki kita SKAICIU \n";
     cin >> Ivedimas;
-    cout << "Galutinio balo skaiciavimui naudoti vidurki ar mediana? \n";
+    cout << "\n Galutinio balo skaiciavimui naudoti vidurki ar mediana? \n";
     cout << "Noredami naudoti mediana, iveskite '1'; \n";
     cout << "Noredami naudoti vidurki, iveskite '0' ar koki kita SKAICIU; \n";
     cin >> VidArMed;
 
     if (Ivedimas == 1) {
-        cout << "Iveskite norimo nuskaityti tekstinio failo pavadinima ('.txt' vesti nereikia)" << endl;
+        cout << "\n Iveskite norimo nuskaityti tekstinio failo pavadinima ('.txt' vesti nereikia)" << endl;
         cin >> txtname;
         f.open(txtname + ".txt", ios::in);
         getline(f, title, '\n');
