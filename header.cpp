@@ -96,8 +96,15 @@ void pazymiai(studentas& stud, int i)
     while (nulis != 0) {
         int paz;
         cin >> paz;
+        skaitymoKlaidosPaz(paz, stud.n);
         stud.vid = stud.vid + (float)paz;
-        if (paz == 0) nulis = 0;
+        if (paz == 0) {
+            if (stud.n == 0) {
+                skaitymoKlaidosPaz(paz, stud.n);
+                stud.vid = stud.vid + (float)paz;
+            }
+            nulis = 0;
+        }
         else {
             stud.nd.push_back(paz);
             stud.n++;
@@ -107,6 +114,7 @@ void pazymiai(studentas& stud, int i)
     }
     cout << "\n Iveskite " << i + 1 << " studento egzamino rezultata \n";
     cin >> stud.egz;
+    skaitymoKlaidosPaz(stud.egz, stud.n);
 }
 
 void isvedimas(vector<studentas> grupe, int StudSkai, int VidArMed)
@@ -139,4 +147,53 @@ bool compareTwoStudents(studentas a, studentas b)
         return a.Pavarde.compare(b.Pavarde) < 0;
 
     return (a.galutinis > b.galutinis);
+}
+
+void skaitymoKlaidos(int& duomuo) {
+    do {
+        try {
+            if (cin.fail()) throw runtime_error("Ivedete netinkama duomeni\n");
+        }
+        catch (const std::runtime_error& e) {
+            cout << e.what();
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Veskite duomeni dar karta: ";
+            cin >> duomuo;
+        }
+    } while (cin.fail() == true);
+}
+
+void skaitymoKlaidosPaz(int& duomuo, int n) {
+    do {
+        try {
+            if (cin.fail()) throw runtime_error("Ivedete netinkama duomeni\n");
+            else if (duomuo > 10) throw runtime_error("Ivestas pazymys virsija 10\n");
+            else if (duomuo < 0) throw runtime_error("Pazymys negali buti neigiamas\n");
+            else if (duomuo == 0 && n == 0) throw runtime_error("Privalote ivesti bent viena pazymi\n");
+        }
+        catch (const std::runtime_error& e) {
+            cout << e.what();
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Veskite duomeni dar karta: ";
+            cin >> duomuo;
+        }
+    } while (cin.fail() == true || duomuo > 10 || duomuo < 0 || (duomuo == 0 && n==0));
+}
+
+void skaitymoKlaidosStud(int& duomuo) {
+    do {
+        try {
+            if (cin.fail()) throw runtime_error("Ivedete netinkama duomeni\n");
+            else if (duomuo <= 0) throw runtime_error("Studentu skaicius negali buti neigiamas arba lygus 0\n");
+        }
+        catch (const std::runtime_error& e) {
+            cout << e.what();
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Veskite duomeni dar karta: ";
+            cin >> duomuo;
+        }
+    } while (cin.fail() == true || duomuo <= 0);
 }

@@ -23,6 +23,9 @@ using std::ifstream;
 using std::getline;
 using std::ios;
 using std::count;
+using std::runtime_error;
+using std::numeric_limits;
+using std::streamsize;
 
 struct studentas {
     string Vardas = "";
@@ -41,3 +44,6 @@ void autogen(studentas& stud, int i);
 void pazymiai(studentas& stud, int i);
 void isvedimas(vector<studentas> grupe, int StudSkai, int VidArMed);
 bool compareTwoStudents(studentas a, studentas b);
+void skaitymoKlaidos(int& duomuo);
+void skaitymoKlaidosPaz(int& duomuo, int n);
+void skaitymoKlaidosStud(int& duomuo);
