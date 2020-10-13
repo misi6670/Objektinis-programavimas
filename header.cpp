@@ -112,7 +112,7 @@ void pazymiai(studentas& stud, int i)
     skaitymoKlaidosPaz(stud.egz, -1);
 }
 
-void isvedimas(vector<studentas> grupe, int StudSkai, int VidArMed)
+void isvedimas(vector<studentas> grupe, int VidArMed)
 {
     const char separator = ' ';
     const int VardSimb = 15;
@@ -208,4 +208,42 @@ void skaitymoKlaidosFailas(ifstream& file, string& name) {
             file.open(name + ".txt", ios::in);
         }
     } while (!file);
+}
+
+void irasymas(string name, vector<studentas> grupe, int VidArMed) {
+    const char separator = ' ';
+    const int VardSimb = 15;
+    const int PavSimb = 15;
+    const int GalutSimb = 16;
+    ofstream f(name);
+
+    sort(grupe.begin(), grupe.end(), compareTwoStudents);
+    f << left << setw(VardSimb) << setfill(separator) << "Vardas";
+    f << left << setw(PavSimb) << setfill(separator) << "Pavarde";
+    if (VidArMed == 1) f << left << setw(GalutSimb) << setfill(separator) << "Galutinis (Med.)" << endl;
+    else f << left << setw(GalutSimb) << setfill(separator) << "Galutinis (Vid.)" << endl;
+    f << string(VardSimb + PavSimb + GalutSimb, '-') << endl;
+    for (auto& tt : grupe) {
+        f << left << setw(VardSimb) << setfill(separator) << tt.Vardas;
+        f << left << setw(PavSimb) << setfill(separator) << tt.Pavarde;
+        f << left << setw(GalutSimb) << setfill(separator) << fixed << setprecision(2) << tt.galutinis << endl;
+    }
+    f.close();
+}
+
+void padalinimas(vector<studentas> grupe, vector<studentas>& grupe1, vector<studentas>& grupe2) {
+    int sk1=0;
+    int sk2=0;
+    for (auto& tt : grupe) {
+        if (tt.galutinis < 5) {
+            grupe1.push_back(tt);
+            sk1++;
+            grupe1.reserve(sk1);
+        }
+        else {
+            grupe2.push_back(tt);
+            sk2++;
+            grupe2.reserve(sk2);
+        }
+    }
 }

@@ -36,7 +36,16 @@ int main()
         grupe.reserve(StudSkai);
         ivedimas(grupe, StudSkai, VidArMed, AutoGen);
     }
-    isvedimas(grupe, StudSkai, VidArMed);
+    isvedimas(grupe, VidArMed);
+    vector <studentas> grupe1;
+    vector <studentas> grupe2;
+    padalinimas(grupe, grupe1, grupe2);
+    if (remove("neislaike.txt") == 0) remove("neislaike.txt");
+    if (remove("islaike.txt") == 0) remove("islaike.txt");
+    if (!grupe1.empty()) irasymas("neislaike.txt", grupe1, VidArMed);
+    if (!grupe2.empty()) irasymas("islaike.txt", grupe2, VidArMed);
     grupe.clear();
+    grupe1.clear();
+    grupe2.clear();
     return(0);
 }
