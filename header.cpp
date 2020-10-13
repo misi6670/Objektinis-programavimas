@@ -11,6 +11,7 @@ void nuskaitymas(vector<studentas>& grupe, int& StudSkai, int VidArMed)
     cout << "\n Iveskite norimo nuskaityti tekstinio failo pavadinima ('.txt' vesti nereikia)" << endl;
     cin >> txtname;
     f.open(txtname + ".txt", ios::in);
+    skaitymoKlaidosFailas(f, txtname);
     getline(f, title, '\n');
     NamuDarbuSk = count(title.begin(), title.end(), 'N');
     while (!f.eof()) {
@@ -98,13 +99,7 @@ void pazymiai(studentas& stud, int i)
         cin >> paz;
         skaitymoKlaidosPaz(paz, stud.n);
         stud.vid = stud.vid + (float)paz;
-        if (paz == 0) {
-            if (stud.n == 0) {
-                skaitymoKlaidosPaz(paz, stud.n);
-                stud.vid = stud.vid + (float)paz;
-            }
-            nulis = 0;
-        }
+        if (paz == 0) nulis = 0;
         else {
             stud.nd.push_back(paz);
             stud.n++;
@@ -196,4 +191,20 @@ void skaitymoKlaidosStud(int& duomuo) {
             cin >> duomuo;
         }
     } while (cin.fail() == true || duomuo <= 0);
+}
+
+void skaitymoKlaidosFailas(ifstream& file, string& name) {
+    do {
+        try {
+            if (!file) throw runtime_error("Toks failas neegzistuoja\n");
+        }
+        catch (const std::runtime_error& e) {
+            cout << e.what();
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Veskite failo pavadinima dar karta: ";
+            cin >> name;
+            file.open(name + ".txt", ios::in);
+        }
+    } while (!file);
 }

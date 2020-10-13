@@ -47,3 +47,4 @@ bool compareTwoStudents(studentas a, studentas b);
 void skaitymoKlaidos(int& duomuo);
 void skaitymoKlaidosPaz(int& duomuo, int n);
 void skaitymoKlaidosStud(int& duomuo);
+void skaitymoKlaidosFailas(ifstream& file, string& name);
