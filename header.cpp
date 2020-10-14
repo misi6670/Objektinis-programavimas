@@ -75,18 +75,35 @@ void ivedimas(vector<studentas>& grupe, int StudSkai, int VidArMed, int AutoGen)
 
 void autogen(studentas& stud, int i)
 {
+    std::random_device rd;
+    std::mt19937::result_type reiksme = rd() ^ (
+        (std::mt19937::result_type)
+        std::chrono::duration_cast<std::chrono::seconds>(
+            std::chrono::system_clock::now().time_since_epoch()
+            ).count() +
+        (std::mt19937::result_type)
+        std::chrono::duration_cast<std::chrono::microseconds>(
+            std::chrono::high_resolution_clock::now().time_since_epoch()
+            ).count());
+
+    std::mt19937 gen(reiksme);
+    std::mt19937::result_type n;
+
     cout << "\n" << i + 1 << " studento atsitiktinai sugeneruoti pazymiai: \n";
-    stud.n = rand() % 20 + 1;
+    while ((n = gen()) > std::mt19937::max() - (std::mt19937::max() - 19) % 20) {}
+    stud.n = n % 20 + 1;
     stud.nd.reserve(stud.n);
     for (int j = 0; j < stud.n; j++) {
         int random;
-        random = rand() % 10 + 1;
+        while ((n = gen()) > std::mt19937::max() - (std::mt19937::max() - 9) % 10) {}
+        random = n % 10 + 1;
         cout << random << " ";
         stud.vid = stud.vid + (float)random;
         stud.nd.push_back(random);
     }
     cout << endl;
-    stud.egz = rand() % 10 + 1;
+    while ((n = gen()) > std::mt19937::max() - (std::mt19937::max() - 9) % 10) {}
+    stud.egz = n % 10 + 1;
     cout << "\n" << i + 1 << " studento atsitiktinai sugeneruotas egzamino balas: " << stud.egz << endl;
 }
 
