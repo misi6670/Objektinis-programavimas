@@ -1,5 +1,6 @@
 #pragma once
 
+#include "klaidos.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -25,9 +26,7 @@ using std::ofstream;
 using std::getline;
 using std::ios;
 using std::count;
-using std::runtime_error;
-using std::numeric_limits;
-using std::streamsize;
+using std::to_string;
 
 struct studentas {
     string Vardas = "";
@@ -39,16 +38,13 @@ struct studentas {
     float vid = 0;
 };
 
-void nuskaitymas(vector<studentas>& grupe, int& StudSkai, int VidArMed);
+void nuskaitymas(string txtname, vector<studentas>& grupe, int& StudSkai, int VidArMed);
 void mediana(studentas& stud);
 void ivedimas(vector<studentas>& grupe, int StudSkai, int VidArMed, int AutoGen);
 void autogen(studentas& stud, int i);
 void pazymiai(studentas& stud, int i);
 void isvedimas(vector<studentas> grupe, int VidArMed);
 bool compareTwoStudents(studentas a, studentas b);
-void skaitymoKlaidos(int& duomuo);
-void skaitymoKlaidosPaz(int& duomuo, int n);
-void skaitymoKlaidosStud(int& duomuo);
-void skaitymoKlaidosFailas(ifstream& file, string& name);
 void irasymas(string name, vector<studentas> grupe, int VidArMed);
 void padalinimas(vector<studentas> grupe, vector<studentas>& grupe1, vector<studentas>& grupe2);
+void generavimas(string txt, int sk, vector<studentas>& grupe);

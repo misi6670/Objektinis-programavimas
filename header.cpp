@@ -1,15 +1,12 @@
 #include "header.h"
 
-void nuskaitymas(vector<studentas>& grupe, int& StudSkai, int VidArMed)
+void nuskaitymas(string txtname, vector<studentas>& grupe, int& StudSkai, int VidArMed)
 {
     ifstream f;
     string title;
     char delimeter(' ');
     int NamuDarbuSk;
-    string txtname;
 
-    cout << "\n Iveskite norimo nuskaityti tekstinio failo pavadinima ('.txt' vesti nereikia)" << endl;
-    cin >> txtname;
     f.open(txtname + ".txt", ios::in);
     skaitymoKlaidosFailas(f, txtname);
     getline(f, title, '\n');
@@ -161,72 +158,6 @@ bool compareTwoStudents(studentas a, studentas b)
     return (a.galutinis > b.galutinis);
 }
 
-void skaitymoKlaidos(int& duomuo) {
-    do {
-        try {
-            if (cin.fail()) throw runtime_error("Ivedete netinkama duomeni\n");
-        }
-        catch (const std::runtime_error& e) {
-            cout << e.what();
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Veskite duomeni dar karta: ";
-            cin >> duomuo;
-        }
-    } while (cin.fail() == true);
-}
-
-void skaitymoKlaidosPaz(int& duomuo, int n) {
-    do {
-        try {
-            if (cin.fail()) throw runtime_error("Ivedete netinkama duomeni\n");
-            else if (duomuo > 10) throw runtime_error("Ivestas pazymys virsija 10\n");
-            else if (duomuo < 0) throw runtime_error("Pazymys negali buti neigiamas\n");
-            else if (duomuo == 0 && n == 0) throw runtime_error("Privalote ivesti bent viena pazymi\n");
-            else if (duomuo == 0 && n == -1) throw runtime_error("Egzamino pazymys negali buti lygus 0\n");
-        }
-        catch (const std::runtime_error& e) {
-            cout << e.what();
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Veskite duomeni dar karta: ";
-            cin >> duomuo;
-        }
-    } while (cin.fail() == true || duomuo > 10 || duomuo < 0 || (duomuo == 0 && n == 0) || (duomuo == 0 && n == -1));
-}
-
-void skaitymoKlaidosStud(int& duomuo) {
-    do {
-        try {
-            if (cin.fail()) throw runtime_error("Ivedete netinkama duomeni\n");
-            else if (duomuo <= 0) throw runtime_error("Studentu skaicius negali buti neigiamas arba lygus 0\n");
-        }
-        catch (const std::runtime_error& e) {
-            cout << e.what();
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Veskite duomeni dar karta: ";
-            cin >> duomuo;
-        }
-    } while (cin.fail() == true || duomuo <= 0);
-}
-
-void skaitymoKlaidosFailas(ifstream& file, string& name) {
-    do {
-        try {
-            if (!file) throw runtime_error("Toks failas neegzistuoja\n");
-        }
-        catch (const std::runtime_error& e) {
-            cout << e.what();
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Veskite failo pavadinima dar karta: ";
-            cin >> name;
-            file.open(name + ".txt", ios::in);
-        }
-    } while (!file);
-}
-
 void irasymas(string name, vector<studentas> grupe, int VidArMed) {
     const char separator = ' ';
     const int VardSimb = 15;
@@ -263,4 +194,67 @@ void padalinimas(vector<studentas> grupe, vector<studentas>& grupe1, vector<stud
             grupe2.reserve(sk2);
         }
     }
+}
+
+void generavimas(string txt, int sk, vector<studentas>& grupe) {
+
+    std::random_device rd;
+    std::mt19937::result_type reiksme = rd() ^ (
+        (std::mt19937::result_type)
+        std::chrono::duration_cast<std::chrono::seconds>(
+            std::chrono::system_clock::now().time_since_epoch()
+            ).count() +
+        (std::mt19937::result_type)
+        std::chrono::duration_cast<std::chrono::microseconds>(
+            std::chrono::high_resolution_clock::now().time_since_epoch()
+            ).count());
+
+    std::mt19937 gen(reiksme);
+    std::mt19937::result_type n;
+
+    ofstream f(txt);
+    int ndsk;
+    grupe.reserve(sk);
+    if (sk <= 1000) {
+        while ((n = gen()) > std::mt19937::max() - (std::mt19937::max() - 14) % 15) {}
+        ndsk = n % 20 + 1;
+    }
+    else if (sk <= 100000) {
+        while ((n = gen()) > std::mt19937::max() - (std::mt19937::max() - 9) % 10) {}
+        ndsk = n % 10 + 1;
+    }
+    else {
+        while ((n = gen()) > std::mt19937::max() - (std::mt19937::max() - 4) % 5) {}
+        ndsk = n % 5 + 1;
+    }
+    
+    for (int i = 0; i < sk; i++) {
+        studentas stud;
+        stud.n = ndsk;
+        stud.nd.reserve(stud.n);
+        stud.Vardas = "Vardas" + to_string(i + 1);
+        stud.Pavarde = "Pavarde" + to_string(i + 1);
+        for (int j = 0; j < stud.n; j++) {
+            int random;
+            while ((n = gen()) > std::mt19937::max() - (std::mt19937::max() - 9) % 10) {}
+            random = n % 10 + 1;
+            stud.vid = stud.vid + (float)random;
+            stud.nd.push_back(random);
+        }
+        while ((n = gen()) > std::mt19937::max() - (std::mt19937::max() - 9) % 10) {}
+        stud.egz = n % 10 + 1;
+        grupe.push_back(stud);
+        stud.nd.clear();
+    }
+
+    f << "Vardas Pavarde";
+    for (int i = 0; i < ndsk; i++) f << " ND" << i + 1 ;
+    f << " Egz." << endl;
+
+    for (auto& tt : grupe) {
+        f << tt.Vardas << " " << tt.Pavarde << " ";
+        for (auto& ss : tt.nd) f << ss << " ";
+        f << tt.egz << endl;
+    }
+    f.close();
 }
