@@ -25,40 +25,20 @@ int main()
     skaitymoKlaidos(VidArMed);
 
     if (Testavimas == 1) {
-
-        /*
-        failø kûrimà;
-        duomenø nuskaitymà ið failø;
-        studentø rûðiàvimà á dvi grupes/kategorijas;
-        surûðiuotø studentø iðvedimà á du naujus failus.
-        */
         if (remove("studentai1000.txt") == 0) remove("studentai1000.txt");
         if (remove("studentai10000.txt") == 0) remove("studentai10000.txt");
         if (remove("studentai100000.txt") == 0) remove("studentai100000.txt");
         if (remove("studentai1000000.txt") == 0) remove("studentai1000000.txt");
         if (remove("studentai10000000.txt") == 0) remove("studentai10000000.txt");
 
-        auto start = std::chrono::high_resolution_clock::now(); auto st = start;
-        generavimas("studentai1000.txt", 1000, grupe);
-        std::chrono::duration<double> diff = std::chrono::high_resolution_clock::now() - start;
-        std::cout << "Failo kurimas uztruko: " << diff.count() << " s\n";
-
-        start = std::chrono::high_resolution_clock::now(); st = start;
-        nuskaitymas("studentai1000", grupe, StudSkai, VidArMed);
-        diff = std::chrono::high_resolution_clock::now() - start;
-        std::cout << "Failo kurimas uztruko: " << diff.count() << " s\n";
-        std::cout << "Duomenu nuskaitymas is failo uztruko: " << diff.count() << " s\n";
-        
-        /*
-        generavimas("studentai1000.txt", 1000);
-        generavimas("studentai10000.txt", 10000);
-        generavimas("studentai100000.txt", 100000);
-        generavimas("studentai1000000.txt", 1000000);
-        generavimas("studentai10000000.txt", 10000000);
-        */
+        test("studentai1000", 1000, StudSkai, VidArMed);
+        test("studentai10000", 10000, StudSkai, VidArMed);
+        test("studentai100000", 100000, StudSkai, VidArMed);
+        test("studentai1000000", 1000000, StudSkai, VidArMed);
+        test("studentai10000000", 10000000, StudSkai, VidArMed);
     }
     else {
-        cout << "Noredami duomenis nuskaityti is failo iveskite '1'; \n";
+        cout << "\n Noredami duomenis nuskaityti is failo iveskite '1'; \n";
         cout << "Kitu atveju iveskite '0' ar bet koki kita SKAICIU \n";
         cin >> Ivedimas;
         skaitymoKlaidos(Ivedimas);
@@ -82,6 +62,7 @@ int main()
             grupe.reserve(StudSkai);
             ivedimas(grupe, StudSkai, VidArMed, AutoGen);
         }
+
         isvedimas(grupe, VidArMed);
         vector <studentas> grupe1;
         vector <studentas> grupe2;
@@ -90,9 +71,9 @@ int main()
         if (remove("islaike.txt") == 0) remove("islaike.txt");
         if (!grupe1.empty()) irasymas("neislaike.txt", grupe1, VidArMed);
         if (!grupe2.empty()) irasymas("islaike.txt", grupe2, VidArMed);
-        grupe.clear();
         grupe1.clear();
-        grupe2.clear();  
+        grupe2.clear();
+        grupe.clear();
     }
     return(0);
 }

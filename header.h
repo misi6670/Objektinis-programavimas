@@ -27,6 +27,9 @@ using std::getline;
 using std::ios;
 using std::count;
 using std::to_string;
+using std::chrono::high_resolution_clock;
+using std::chrono::duration;
+
 
 struct studentas {
     string Vardas = "";
@@ -47,4 +50,5 @@ void isvedimas(vector<studentas> grupe, int VidArMed);
 bool compareTwoStudents(studentas a, studentas b);
 void irasymas(string name, vector<studentas> grupe, int VidArMed);
 void padalinimas(vector<studentas> grupe, vector<studentas>& grupe1, vector<studentas>& grupe2);
-void generavimas(string txt, int sk, vector<studentas>& grupe);
+void generavimas(string txt, int sk);
+void test(string txt, int duomsk, int StudSkai, int VidArMed);

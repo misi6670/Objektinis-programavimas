@@ -158,7 +158,8 @@ bool compareTwoStudents(studentas a, studentas b)
     return (a.galutinis > b.galutinis);
 }
 
-void irasymas(string name, vector<studentas> grupe, int VidArMed) {
+void irasymas(string name, vector<studentas> grupe, int VidArMed)
+{
     const char separator = ' ';
     const int VardSimb = 15;
     const int PavSimb = 15;
@@ -179,9 +180,10 @@ void irasymas(string name, vector<studentas> grupe, int VidArMed) {
     f.close();
 }
 
-void padalinimas(vector<studentas> grupe, vector<studentas>& grupe1, vector<studentas>& grupe2) {
-    int sk1=0;
-    int sk2=0;
+void padalinimas(vector<studentas> grupe, vector<studentas>& grupe1, vector<studentas>& grupe2)
+{
+    int sk1 = 0;
+    int sk2 = 0;
     for (auto& tt : grupe) {
         if (tt.galutinis < 5) {
             grupe1.push_back(tt);
@@ -196,8 +198,9 @@ void padalinimas(vector<studentas> grupe, vector<studentas>& grupe1, vector<stud
     }
 }
 
-void generavimas(string txt, int sk, vector<studentas>& grupe) {
-
+void generavimas(string txt, int sk)
+{
+    vector<studentas> grupe;
     std::random_device rd;
     std::mt19937::result_type reiksme = rd() ^ (
         (std::mt19937::result_type)
@@ -254,7 +257,52 @@ void generavimas(string txt, int sk, vector<studentas>& grupe) {
     for (auto& tt : grupe) {
         f << tt.Vardas << " " << tt.Pavarde << " ";
         for (auto& ss : tt.nd) f << ss << " ";
-        f << tt.egz << endl;
+        f << tt.egz;
+        if (&tt != &grupe.back()) f << endl;
     }
+
     f.close();
+}
+
+void test(string txt, int duomsk, int StudSkai, int VidArMed)
+{
+    vector <studentas> grupe;
+    vector <studentas> grupe1;
+    vector <studentas> grupe2;
+
+    if (remove("neislaike.txt") == 0) remove("neislaike.txt");
+    if (remove("islaike.txt") == 0) remove("islaike.txt");
+    cout << endl;
+
+    auto start = high_resolution_clock::now(); auto st = start;
+    generavimas(txt + ".txt", duomsk);
+    duration<double> diff = high_resolution_clock::now() - start;
+    cout << "Failo is " << duomsk << " irasu kurimas uztruko: " << diff.count() << " s\n";
+
+    start = high_resolution_clock::now();
+    nuskaitymas(txt, grupe, StudSkai, VidArMed);
+    diff = high_resolution_clock::now() - start;
+    cout << duomsk << " irasu nuskaitymas is failo uztruko: " << diff.count() << " s\n";
+
+    start = high_resolution_clock::now();
+    padalinimas(grupe, grupe1, grupe2);
+    diff = high_resolution_clock::now() - start;
+    cout << duomsk << " studentu rusiavimas i dvi grupes/kategorijas uztruko: " << diff.count() << " s\n";
+
+    start = high_resolution_clock::now();
+    if (!grupe1.empty()) irasymas("neislaike.txt", grupe1, VidArMed);
+    diff = high_resolution_clock::now() - start;
+    cout << duomsk << " irasu neislaikiusiu studentu isvedimas i nauja faila uztruko: " << diff.count() << " s\n";
+
+    start = high_resolution_clock::now();
+    if (!grupe2.empty()) irasymas("islaike.txt", grupe2, VidArMed);
+    diff = high_resolution_clock::now() - start;
+    cout << duomsk << " irasu islaikiusiu studentu isvedimas i nauja faila uztruko: " << diff.count() << " s\n";
+
+    diff = high_resolution_clock::now() - st;
+    cout << endl << duomsk << " irasu testo laikas: " << diff.count() << " s\n";
+
+    grupe1.clear();
+    grupe2.clear();
+    grupe.clear();
 }
