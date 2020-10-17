@@ -25,17 +25,20 @@ int main()
     skaitymoKlaidos(VidArMed);
 
     if (Testavimas == 1) {
-        if (remove("studentai1000.txt") == 0) remove("studentai1000.txt");
-        if (remove("studentai10000.txt") == 0) remove("studentai10000.txt");
-        if (remove("studentai100000.txt") == 0) remove("studentai100000.txt");
-        if (remove("studentai1000000.txt") == 0) remove("studentai1000000.txt");
-        if (remove("studentai10000000.txt") == 0) remove("studentai10000000.txt");
-
         test("studentai1000", 1000, StudSkai, VidArMed);
+        if (remove("studentai1000.txt") == 0) remove("studentai1000.txt");
+
         test("studentai10000", 10000, StudSkai, VidArMed);
+        if (remove("studentai10000.txt") == 0) remove("studentai10000.txt");
+
         test("studentai100000", 100000, StudSkai, VidArMed);
+        if (remove("studentai100000.txt") == 0) remove("studentai100000.txt");
+
         test("studentai1000000", 1000000, StudSkai, VidArMed);
+        if (remove("studentai1000000.txt") == 0) remove("studentai1000000.txt");
+
         test("studentai10000000", 10000000, StudSkai, VidArMed);
+        if (remove("studentai10000000.txt") == 0) remove("studentai10000000.txt");
     }
     else {
         cout << "\n Noredami duomenis nuskaityti is failo iveskite '1'; \n";
@@ -44,7 +47,6 @@ int main()
         skaitymoKlaidos(Ivedimas);
 
         if (Ivedimas == 1) {
-
             cout << "\n Iveskite norimo nuskaityti tekstinio failo pavadinima ('.txt' vesti nereikia)" << endl;
             cin >> txtname;
             nuskaitymas(txtname, grupe, StudSkai, VidArMed);

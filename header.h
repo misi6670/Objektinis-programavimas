@@ -30,7 +30,6 @@ using std::to_string;
 using std::chrono::high_resolution_clock;
 using std::chrono::duration;
 
-
 struct studentas {
     string Vardas = "";
     string Pavarde = "";
@@ -45,10 +44,11 @@ void nuskaitymas(string txtname, vector<studentas>& grupe, int& StudSkai, int Vi
 void mediana(studentas& stud);
 void ivedimas(vector<studentas>& grupe, int StudSkai, int VidArMed, int AutoGen);
 void autogen(studentas& stud, int i);
+int autosk(int nuo, int iki);
 void pazymiai(studentas& stud, int i);
 void isvedimas(vector<studentas> grupe, int VidArMed);
 bool compareTwoStudents(studentas a, studentas b);
 void irasymas(string name, vector<studentas> grupe, int VidArMed);
 void padalinimas(vector<studentas> grupe, vector<studentas>& grupe1, vector<studentas>& grupe2);
-void generavimas(string txt, int sk);
+void generavimas(string txt, int sk, int& ndsk);
 void test(string txt, int duomsk, int StudSkai, int VidArMed);

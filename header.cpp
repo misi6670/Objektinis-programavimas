@@ -2,7 +2,6 @@
 
 void nuskaitymas(string txtname, vector<studentas>& grupe, int& StudSkai, int VidArMed)
 {
-    char delimeter(' ');
     int NamuDarbuSk;
     int pirmas = 0;
     vector<string> eilute;
@@ -102,36 +101,28 @@ void ivedimas(vector<studentas>& grupe, int StudSkai, int VidArMed, int AutoGen)
 
 void autogen(studentas& stud, int i)
 {
-    std::random_device rd;
-    std::mt19937::result_type reiksme = rd() ^ (
-        (std::mt19937::result_type)
-        std::chrono::duration_cast<std::chrono::seconds>(
-            std::chrono::system_clock::now().time_since_epoch()
-            ).count() +
-        (std::mt19937::result_type)
-        std::chrono::duration_cast<std::chrono::microseconds>(
-            std::chrono::high_resolution_clock::now().time_since_epoch()
-            ).count());
-
-    std::mt19937 gen(reiksme);
-    std::mt19937::result_type n;
-
     cout << "\n" << i + 1 << " studento atsitiktinai sugeneruoti pazymiai: \n";
-    while ((n = gen()) > std::mt19937::max() - (std::mt19937::max() - 19) % 20) {}
-    stud.n = n % 20 + 1;
+    stud.n = autosk(1, 15);
     stud.nd.reserve(stud.n);
     for (int j = 0; j < stud.n; j++) {
         int random;
-        while ((n = gen()) > std::mt19937::max() - (std::mt19937::max() - 9) % 10) {}
-        random = n % 10 + 1;
+        random = autosk(1, 10);
         cout << random << " ";
         stud.vid = stud.vid + (float)random;
         stud.nd.push_back(random);
     }
     cout << endl;
-    while ((n = gen()) > std::mt19937::max() - (std::mt19937::max() - 9) % 10) {}
-    stud.egz = n % 10 + 1;
+    stud.egz = autosk(1, 10);
     cout << "\n" << i + 1 << " studento atsitiktinai sugeneruotas egzamino balas: " << stud.egz << endl;
+}
+
+int autosk(int nuo, int iki)
+{
+    using hrClock = high_resolution_clock;
+    std::mt19937 mt(static_cast<long unsigned int>(hrClock::now().time_since_epoch().count()));
+    std::uniform_int_distribution<int> dist(nuo, iki);
+    int sk = dist(mt);
+    return sk;
 }
 
 void pazymiai(studentas& stud, int i)
@@ -228,39 +219,22 @@ void padalinimas(vector<studentas> grupe, vector<studentas>& grupe1, vector<stud
     }
 }
 
-void generavimas(string txt, int sk)
+void generavimas(string txt, int sk, int& ndsk)
 {
     vector<studentas> grupe;
-    std::random_device rd;
-    std::mt19937::result_type reiksme = rd() ^ (
-        (std::mt19937::result_type)
-        std::chrono::duration_cast<std::chrono::seconds>(
-            std::chrono::system_clock::now().time_since_epoch()
-            ).count() +
-        (std::mt19937::result_type)
-        std::chrono::duration_cast<std::chrono::microseconds>(
-            std::chrono::high_resolution_clock::now().time_since_epoch()
-            ).count());
 
-    std::mt19937 gen(reiksme);
-    std::mt19937::result_type n;
+    const char separator = ' ';
+    const int VardSimb = 15;
+    const int PavSimb = 15;
+    const int NdSimb = 5;
 
     ofstream f(txt);
-    int ndsk;
+
     grupe.reserve(sk);
-    if (sk <= 1000) {
-        while ((n = gen()) > std::mt19937::max() - (std::mt19937::max() - 14) % 15) {}
-        ndsk = n % 20 + 1;
-    }
-    else if (sk <= 100000) {
-        while ((n = gen()) > std::mt19937::max() - (std::mt19937::max() - 9) % 10) {}
-        ndsk = n % 10 + 1;
-    }
-    else {
-        while ((n = gen()) > std::mt19937::max() - (std::mt19937::max() - 4) % 5) {}
-        ndsk = n % 5 + 1;
-    }
-    
+    if (sk <= 1000) ndsk = autosk(1, 15);
+    else if (sk <= 100000) ndsk = autosk(1, 10);
+    else ndsk = autosk(1, 5);
+
     for (int i = 0; i < sk; i++) {
         studentas stud;
         stud.n = ndsk;
@@ -269,24 +243,24 @@ void generavimas(string txt, int sk)
         stud.Pavarde = "Pavarde" + to_string(i + 1);
         for (int j = 0; j < stud.n; j++) {
             int random;
-            while ((n = gen()) > std::mt19937::max() - (std::mt19937::max() - 9) % 10) {}
-            random = n % 10 + 1;
+            random = autosk(1, 10);
             stud.vid = stud.vid + (float)random;
             stud.nd.push_back(random);
         }
-        while ((n = gen()) > std::mt19937::max() - (std::mt19937::max() - 9) % 10) {}
-        stud.egz = n % 10 + 1;
+        stud.egz = autosk(1, 10);
         grupe.push_back(stud);
         stud.nd.clear();
     }
 
-    f << "Vardas Pavarde";
-    for (int i = 0; i < ndsk; i++) f << " ND" << i + 1 ;
-    f << " Egz." << endl;
+    f << left << setw(VardSimb) << setfill(separator) << "Vardas";
+    f << left << setw(PavSimb) << setfill(separator) << "Pavarde";
+    for (int i = 0; i < ndsk; i++) f << left << setw(NdSimb) << setfill(separator) << "ND" + to_string(i + 1);
+    f << "Egz." << endl;
 
     for (auto& tt : grupe) {
-        f << tt.Vardas << " " << tt.Pavarde << " ";
-        for (auto& ss : tt.nd) f << ss << " ";
+        f << left << setw(VardSimb) << setfill(separator) << tt.Vardas;
+        f << left << setw(PavSimb) << setfill(separator) << tt.Pavarde;
+        for (auto& ss : tt.nd) f << left << setw(NdSimb) << ss;
         f << tt.egz;
         if (&tt != &grupe.back()) f << endl;
     }
@@ -299,21 +273,22 @@ void test(string txt, int duomsk, int StudSkai, int VidArMed)
     vector <studentas> grupe;
     vector <studentas> grupe1;
     vector <studentas> grupe2;
+    int ndsk = 0;
 
     if (remove("neislaike.txt") == 0) remove("neislaike.txt");
     if (remove("islaike.txt") == 0) remove("islaike.txt");
     cout << endl;
 
     auto start = high_resolution_clock::now(); auto st = start;
-    generavimas(txt + ".txt", duomsk);
+    generavimas(txt + ".txt", duomsk, ndsk);
     duration<double> diff = high_resolution_clock::now() - start;
-    cout << "Failo is " << duomsk << " irasu kurimas uztruko: " << diff.count() << " s\n";
-    
+    cout << "Failo is " << duomsk << " irasu (namu darbu skaicius - " << ndsk << ") kurimas uztruko: " << diff.count() << " s\n";
+
     start = high_resolution_clock::now();
     nuskaitymas(txt, grupe, StudSkai, VidArMed);
     diff = high_resolution_clock::now() - start;
     cout << duomsk << " irasu nuskaitymas is failo uztruko: " << diff.count() << " s\n";
-    
+
     start = high_resolution_clock::now();
     padalinimas(grupe, grupe1, grupe2);
     diff = high_resolution_clock::now() - start;
