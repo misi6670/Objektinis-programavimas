@@ -2,43 +2,73 @@
 
 void nuskaitymas(string txtname, vector<studentas>& grupe, int& StudSkai, int VidArMed)
 {
-    ifstream f;
-    string title;
     char delimeter(' ');
     int NamuDarbuSk;
+    int pirmas = 0;
+    vector<string> eilute;
+    string eil;
+    ifstream f(txtname + ".txt");
 
-    f.open(txtname + ".txt", ios::in);
-    skaitymoKlaidosFailas(f, txtname);
-    getline(f, title, '\n');
-    NamuDarbuSk = count(title.begin(), title.end(), 'N');
-    while (!f.eof()) {
-        if (f.fail()) {}
-        StudSkai++;
-        grupe.reserve(StudSkai);
-        studentas stud;
-        stud.n = NamuDarbuSk;
-        stud.nd.reserve(stud.n);
-        getline(f, stud.Vardas, delimeter);
-        char a = ' ';
-        while (a == ' ') f.get(a);
-        getline(f, stud.Pavarde, delimeter);
-        stud.Pavarde = a + stud.Pavarde;
-        for (int i = 0; i < stud.n; i++) {
-            int paz;
-            f >> paz;
-            stud.vid = stud.vid + (float)paz;
-            stud.nd.push_back(paz);
+    while (f) {
+        if (!f.eof()) {
+            std::getline(f, eil);
+            eilute.push_back(eil);
         }
-        f >> stud.egz;
-        string temp;
-        getline(f, temp, '\n');
-        if (VidArMed == 1) mediana(stud);
-        else stud.galutinis = stud.vid / (float)stud.n;
-        stud.galutinis = stud.galutinis * 0.4 + (float)stud.egz * 0.6;
-        grupe.push_back(stud);
-        stud.nd.clear();
+        else break;
     }
     f.close();
+
+    for (auto str : eilute) {
+        if (pirmas == 0) {
+            NamuDarbuSk = count(str.begin(), str.end(), 'N');
+            pirmas = 1;
+        }
+        else {
+            studentas stud;
+            stud.n = NamuDarbuSk;
+            stud.nd.reserve(stud.n);
+            for (int i = 0; i < str.length(); i++)
+            {
+                if (str.at(i) >= 'A' && str.at(i) <= 'Z') {
+                    if (stud.Vardas == "")
+                        while (str.at(i) != ' ') {
+                            stud.Vardas += str.at(i);
+                            i++;
+                        }
+                    else
+                        while (str.at(i) != ' ') {
+                            stud.Pavarde += str.at(i);
+                            i++;
+                        }
+                }
+                else if (isdigit(str.at(i))) {
+                    int a = i + 1;
+                    if (i == str.length() - 2) {
+                        stud.egz = (str.at(i) - '0') * 10 + (str.at(a) - '0');
+                        i++;
+                    }
+                    else if (i == str.length() - 1) {
+                        stud.egz = str.at(i) - '0';
+                    }
+                    else {
+                        int paz = 0;
+                        if (str.at(a) == ' ') paz = str.at(i) - '0';
+                        else {
+                            paz = (str.at(i) - '0') * 10 + (str.at(a) - '0');
+                            i++;
+                        }
+                        stud.vid = stud.vid + (float)paz;
+                        stud.nd.push_back(paz);
+                    }
+                }
+            }
+            if (VidArMed == 1) mediana(stud);
+            else stud.galutinis = stud.vid / (float)stud.n;
+            stud.galutinis = stud.galutinis * 0.4 + (float)stud.egz * 0.6;
+            grupe.push_back(stud);
+            stud.nd.clear();
+        }
+    }
 }
 
 void mediana(studentas& stud)
@@ -278,12 +308,12 @@ void test(string txt, int duomsk, int StudSkai, int VidArMed)
     generavimas(txt + ".txt", duomsk);
     duration<double> diff = high_resolution_clock::now() - start;
     cout << "Failo is " << duomsk << " irasu kurimas uztruko: " << diff.count() << " s\n";
-
+    
     start = high_resolution_clock::now();
     nuskaitymas(txt, grupe, StudSkai, VidArMed);
     diff = high_resolution_clock::now() - start;
     cout << duomsk << " irasu nuskaitymas is failo uztruko: " << diff.count() << " s\n";
-
+    
     start = high_resolution_clock::now();
     padalinimas(grupe, grupe1, grupe2);
     diff = high_resolution_clock::now() - start;
