@@ -9,7 +9,6 @@ int main()
     int StudSkai = 0;
     int VidArMed = 0;
     int AutoGen = 0;
-    int AutoGenVP = 0;
     int Ivedimas = 0;
     int Testavimas = 0;
     string txtname;

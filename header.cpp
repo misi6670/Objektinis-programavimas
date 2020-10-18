@@ -239,8 +239,6 @@ void generavimas(string txt, int sk, int& ndsk)
         studentas stud;
         stud.n = ndsk;
         stud.nd.reserve(stud.n);
-        //stud.Vardas = "Vardas" + to_string(i + 1);
-        //stud.Pavarde = "Pavarde" + to_string(i + 1);
         zmogausVP(stud.Vardas, stud.Pavarde);
         for (int j = 0; j < stud.n; j++) {
             int random;
