@@ -9,6 +9,7 @@
 #include <fstream>
 #include <chrono>
 #include <random>
+#include <map>
 
 using std::cout;
 using std::cin;
@@ -29,6 +30,7 @@ using std::count;
 using std::to_string;
 using std::chrono::high_resolution_clock;
 using std::chrono::duration;
+using std::map;
 
 struct studentas {
     string Vardas = "";
@@ -51,4 +53,5 @@ bool compareTwoStudents(studentas a, studentas b);
 void irasymas(string name, vector<studentas> grupe, int VidArMed);
 void padalinimas(vector<studentas> grupe, vector<studentas>& grupe1, vector<studentas>& grupe2);
 void generavimas(string txt, int sk, int& ndsk);
+void zmogausVP(string& vardas, string& pavarde);
 void test(string txt, int duomsk, int StudSkai, int VidArMed);

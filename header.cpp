@@ -239,8 +239,9 @@ void generavimas(string txt, int sk, int& ndsk)
         studentas stud;
         stud.n = ndsk;
         stud.nd.reserve(stud.n);
-        stud.Vardas = "Vardas" + to_string(i + 1);
-        stud.Pavarde = "Pavarde" + to_string(i + 1);
+        //stud.Vardas = "Vardas" + to_string(i + 1);
+        //stud.Pavarde = "Pavarde" + to_string(i + 1);
+        zmogausVP(stud.Vardas, stud.Pavarde);
         for (int j = 0; j < stud.n; j++) {
             int random;
             random = autosk(1, 10);
@@ -266,6 +267,65 @@ void generavimas(string txt, int sk, int& ndsk)
     }
 
     f.close();
+    grupe.clear();
+}
+
+void zmogausVP(string& vardas, string& pavarde) {
+
+    map<int, string> vardai, pavardes_m, pavardes_v;
+
+    vardai[100] = "Irma";
+    vardai[101] = "Alma";
+    vardai[102] = "Irena";
+    vardai[103] = "Egle";
+    vardai[104] = "Jolanta";
+    vardai[105] = "Julija";
+    vardai[106] = "Goda";
+    vardai[107] = "Kotryna";
+    vardai[108] = "Ugne";
+    vardai[109] = "Saule";
+    vardai[110] = "Auguste";
+    vardai[111] = "Milda";
+    vardai[112] = "Gabija";
+    vardai[113] = "Teja";
+    vardai[114] = "Orinta";
+    vardai[115] = "Emilija";
+    vardai[116] = "Ilona";
+    vardai[117] = "Sigita";
+    vardai[118] = "Evelina";
+    vardai[119] = "Aurelija";
+
+    vardai[120] = "Petras";
+    vardai[121] = "Jonas";
+    vardai[122] = "Ignas";
+    vardai[123] = "Darius";
+    vardai[124] = "Simas";
+    vardai[125] = "Paulius";
+    vardai[126] = "Donatas";
+    vardai[127] = "Rytis";
+    vardai[128] = "Saulius";
+    vardai[129] = "Valdas";
+    vardai[130] = "Saulius";
+    vardai[131] = "Gytis";
+    vardai[132] = "Jokubas";
+    vardai[133] = "Aurimas";
+    vardai[134] = "Gvidas";
+    vardai[135] = "Tomas";
+    vardai[136] = "Rimas";
+    vardai[137] = "Aidas";
+    vardai[138] = "Dominykas";
+    vardai[139] = "Kipras";
+
+    vardas = vardai[autosk(100, 139)];
+
+    switch (*vardas.rbegin()) {
+    case 's':
+        pavarde = "Pavardenis" + to_string(autosk(1, 500));
+        break;
+    default:
+        pavarde = "Pavardaite" + to_string(autosk(1, 500));
+        break;
+    };
 }
 
 void test(string txt, int duomsk, int StudSkai, int VidArMed)
@@ -282,7 +342,7 @@ void test(string txt, int duomsk, int StudSkai, int VidArMed)
     auto start = high_resolution_clock::now(); auto st = start;
     generavimas(txt + ".txt", duomsk, ndsk);
     duration<double> diff = high_resolution_clock::now() - start;
-    cout << "Failo is " << duomsk << " irasu (namu darbu skaicius - " << ndsk << ") kurimas uztruko: " << diff.count() << " s\n";
+    cout << "Failo is " << duomsk << " irasu (namu darbu skaicius: " << ndsk << ") kurimas uztruko: " << diff.count() << " s\n";
 
     start = high_resolution_clock::now();
     nuskaitymas(txt, grupe, StudSkai, VidArMed);
